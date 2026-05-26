@@ -1,7 +1,9 @@
 <!-- BEGIN:nextjs-agent-rules -->
+
 # This is NOT the Next.js you know
 
 This version has breaking changes — APIs, conventions, and file structure may all differ from your training data. Read the relevant guide in `node_modules/next/dist/docs/` before writing any code. Heed deprecation notices.
+
 <!-- END:nextjs-agent-rules -->
 
 ## What this project is
@@ -31,14 +33,14 @@ Use `contentful-typescript-codegen` or hand-typed interfaces in `lib/contentful-
 
 ## Routing
 
-| Route | Source |
-|---|---|
-| `/` | static, `app/page.tsx` |
-| `/oferta` | static, `app/oferta/page.tsx` |
-| `/oferta/[slug]` | static via `generateStaticParams`, sourced from `stronaOfertyPodstrona` |
-| `/aktualnosci` | static, `app/aktualnosci/page.tsx` |
-| `/aktualnosci/[date]/[slug]` | static via `generateStaticParams`, sourced from `aktualnosciPost` |
-| `/regulamin-strony` | static, `app/regulamin-strony/page.tsx` |
+| Route                        | Source                                                                  |
+| ---------------------------- | ----------------------------------------------------------------------- |
+| `/`                          | static, `app/page.tsx`                                                  |
+| `/oferta`                    | static, `app/oferta/page.tsx`                                           |
+| `/oferta/[slug]`             | static via `generateStaticParams`, sourced from `stronaOfertyPodstrona` |
+| `/aktualnosci`               | static, `app/aktualnosci/page.tsx`                                      |
+| `/aktualnosci/[date]/[slug]` | static via `generateStaticParams`, sourced from `aktualnosciPost`       |
+| `/regulamin-strony`          | static, `app/regulamin-strony/page.tsx`                                 |
 
 URLs **must remain identical** to the predecessor site so existing Google rankings transfer. Any slug change requires a 301 redirect in `next.config.ts`.
 
