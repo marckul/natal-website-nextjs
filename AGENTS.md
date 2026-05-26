@@ -17,7 +17,7 @@ A small Polish-language marketing website for **Natal Instalacje**. The site is 
 - **Contentful** as headless CMS (kept from the predecessor site — same space, same content model). Fetched server-side in RSCs via the official `contentful` SDK.
 - **next/image** for all images
 - **Vercel** deployment with **ISR**; Contentful webhook hits `/api/revalidate` on publish
-- **pnpm** as the package manager
+- **npm** as the package manager (commit `package-lock.json`; never commit `pnpm-lock.yaml` or `yarn.lock`)
 
 ## Content model (Contentful)
 
