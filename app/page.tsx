@@ -1,40 +1,13 @@
-import Image from 'next/image';
-
-const ofertaCards = [
-  {
-    id: 'centralne-ogrzewanie',
-    title: 'Centralne Ogrzewanie',
-    img: '/images/gas-boiler.png',
-    alt: 'Kocioł gazowy kondensacyjny',
-    text: 'W naszej ofercie znajdziecie państwo kotły kondensacyjne, pompy ciepła, ogrzewanie podłogowe oraz inne rozwiązania zapewniające właściwe ogrzewanie budynku.',
-  },
-  {
-    id: 'koparka',
-    title: 'Koparka',
-    img: '/images/excavator-sketch.png',
-    alt: 'Minikoparka Kubota KX018-4',
-    text: 'Oferujemy wynajem minikoparki Kubota KX018-4 wraz z wykwalifikowanym operatorem. Wykonujemy wykopy pod instalacje i inne prace ziemne.',
-  },
-  {
-    id: 'fotowoltaika-i-wentylacja',
-    title: 'Fotowoltaika i Wentylacja',
-    img: '/images/photovoltaics-sketch.jpg',
-    alt: 'Panele fotowoltaiczne na dachu',
-    text: 'Zajmujemy się sprzedażą i montażem ogniw fotowoltaicznych i solarów, a także instalacją systemów wentylacji z rekuperacją.',
-  },
-  {
-    id: 'instalacje-wod-kan',
-    title: 'Instalacje WOD-KAN',
-    img: '/images/tap-sketch.png',
-    alt: 'Rysunek techniczny kurka wodnego',
-    text: 'Wykonujemy przyłącza wodne i kanalizacyjne. Współpracujemy z projektantami instalacji zapewniając projekt i nadzór kierownika budowy.',
-  },
-];
+import Card from '@/components/Card';
+import CardText from '@/components/CardText';
+import CardTitle from '@/components/CardTitle';
+import Phone from '@/components/Phone';
+import Row from '@/components/Row';
 
 export default function HomePage() {
   return (
     <>
-      {/* Hero placeholder — carousel goes here in Phase 2 */}
+      {/* Hero placeholder — carousel replaces this in Phase 2 */}
       <section
         id="start"
         className="position-relative text-white d-flex align-items-center"
@@ -84,30 +57,66 @@ export default function HomePage() {
           <strong>sprzedaży, wykonawstwa i serwisu</strong> w poniższych
           dziedzinach
         </p>
-        <div className="row justify-content-around g-4 mt-2">
-          {ofertaCards.map(({id, title, img, alt, text}) => (
-            <div key={id} className="col-md-6 col-lg-3">
-              <div className="card h-100">
-                <Image
-                  src={img}
-                  alt={alt}
-                  width={400}
-                  height={260}
-                  className="card-img-top"
-                  style={{
-                    objectFit: 'contain',
-                    background: '#f8f9fa',
-                    padding: '1rem',
-                  }}
-                />
-                <div className="card-body">
-                  <h5 className="card-title">{title}</h5>
-                  <p className="card-text">{text}</p>
-                </div>
-              </div>
-            </div>
-          ))}
-        </div>
+        <Row justifyContent="around">
+          <Card
+            id="centralne-ogrzewanie"
+            to="/oferta/#centralne-ogrzewanie"
+            src="/images/gas-boiler.png"
+            alt="Kocioł gazowy kondensacyjny"
+            small=""
+          >
+            <CardTitle>Centralne Ogrzewanie</CardTitle>
+            <CardText>
+              W naszej ofercie znajdziecie państwo kotły kondensacyjne, pompy
+              ciepła, ogrzewanie podłogowe oraz inne rozwiązania zapewniające
+              właściwe ogrzewanie budynku, które stosuje się w nowoczesnym
+              budownictwie.
+            </CardText>
+          </Card>
+          <Card
+            id="roboty-ziemne"
+            to="/oferta#roboty-ziemne"
+            src="/images/excavator-sketch.png"
+            alt="Minikoparka Kubota KX018-4"
+            small=""
+          >
+            <CardTitle>Koparka</CardTitle>
+            <CardText>
+              Oferujemy wynajem{' '}
+              <strong>minikoparki&nbsp;Kubota KX018&nbsp;-&nbsp;4</strong> wraz
+              z wykwalifikowanym operatorem. Wykonujemy wykopy zarówno pod
+              instalacje wodno-kanalizacyjne, gazowe jak i inne wykopy związane
+              z remontem i budową domu
+            </CardText>
+          </Card>
+          <Card
+            id="fotowoltaika-i-wentylacja"
+            to="/oferta/#fotowoltaika"
+            src="/images/photovoltaics-sketch.jpg"
+            alt="Panele fotowoltaiczne na dachu budynku"
+            small=""
+          >
+            <CardTitle>Fotowoltaika i Wentylacja</CardTitle>
+            <CardText>
+              Zajmujemy się sprzedażą i montażem ogniw fotowoltaicznych i
+              solarów, a także instalacją systemów wentylacji z rekuperacją.
+            </CardText>
+          </Card>
+          <Card
+            id="instalacje-wod-kan"
+            to="/oferta#instalacje-wod-kan"
+            src="/images/tap-sketch.png"
+            alt="Rysunek techniczny kurka wodnego"
+            small=""
+          >
+            <CardTitle>Instalacje WOD-KAN</CardTitle>
+            <CardText>
+              Wykonujemy przyłącza wodne i kanalizacyjne. Dzięki stałej
+              współpracy z projektantami instalacji jesteśmy w stanie zapewnić
+              również projekt wykonywanej instalacji przyłącza.
+            </CardText>
+          </Card>
+        </Row>
       </section>
 
       <section id="o-firmie" className="container my-5 py-5">
@@ -145,52 +154,90 @@ export default function HomePage() {
         </p>
       </section>
 
-      <section id="kontakt" className="bg-dark text-white py-5">
-        <div className="container py-5">
-          <h1 className="display-2 mb-5">Jak nas znaleźć?</h1>
-          <div className="row justify-content-between">
-            <div className="col-md-4 col-lg-3 mb-5">
-              <h2>Nasz adres</h2>
-              <address>
-                Miejska 13, 44-200 Rybnik
-                <br />
-                Natalia Kula &quot;Natal&quot; PHU
-              </address>
-            </div>
-            <div className="col-md-3 col-lg-2 mb-5">
-              <h2>Telefon</h2>
-              <a className="text-white d-block" href="tel:500087801">
-                500 087 801
-              </a>
-              <a className="text-white d-block" href="tel:500087803">
-                500 087 803
-              </a>
-              <a className="text-white d-block" href="tel:324231129">
-                32&nbsp;42&nbsp;31&nbsp;129
-              </a>
-            </div>
-            <div className="col-md col-lg-5 mb-5">
-              <h2>Godziny otwarcia</h2>
-              <table>
-                <tbody>
-                  {[
-                    ['poniedziałek', '08:30–16:00'],
-                    ['wtorek', '08:30–16:00'],
-                    ['środa', '08:30–16:00'],
-                    ['czwartek', '08:30–16:00'],
-                    ['piątek', '08:30–16:00'],
-                    ['sobota', '09:00–12:00'],
-                    ['niedziela', 'Zamknięte'],
-                  ].map(([day, hours]) => (
-                    <tr key={day}>
-                      <th className="pe-4">{day}</th>
-                      <td>{hours}</td>
-                    </tr>
-                  ))}
-                </tbody>
-              </table>
+      <section id="kontakt">
+        <div
+          className="py-5 d-flex flex-column justify-content-center position-relative text-white"
+          style={{
+            backgroundImage: 'url(/images/natal-pipes.jpg)',
+            backgroundSize: 'cover',
+            backgroundPosition: 'center',
+          }}
+        >
+          <div
+            className="position-absolute top-0 start-0 w-100 h-100"
+            style={{background: 'rgba(0,0,0,0.6)'}}
+          />
+          <div className="container position-relative py-5 my-5">
+            <div className="row mx-auto px-0 justify-content-between">
+              <div className="col-12">
+                <h1 className="display-2 text-start mb-5">Jak nas znaleźć?</h1>
+              </div>
+              <div className="col-md-4 col-lg-3 mb-5">
+                <h2>Nasz adres</h2>
+                <p>
+                  <address className="mb-0">Miejska 13, 44-200 Rybnik</address>
+                  Natalia Kula &quot;Natal&quot; PHU
+                  <br />
+                </p>
+              </div>
+              <div className="col-md-3 col-lg-2 mb-5">
+                <h2>Telefon</h2>
+                <Phone tel="500087801" className="link-light">
+                  500 087 801
+                </Phone>
+                <Phone tel="500087803" className="link-light">
+                  500 087 803
+                </Phone>
+                <Phone tel="324231129" className="link-light">
+                  32&nbsp;42&nbsp;31&nbsp;129
+                </Phone>
+              </div>
+              <div className="col-md col-lg-5 mb-5">
+                <div className="openning-hours">
+                  <h2>Godziny otwarcia</h2>
+                  <table>
+                    <tbody>
+                      {[
+                        ['poniedziałek', '08:30–16:00'],
+                        ['wtorek', '08:30–16:00'],
+                        ['środa', '08:30–16:00'],
+                        ['czwartek', '08:30–16:00'],
+                        ['piątek', '08:30–16:00'],
+                        ['sobota', '09:00–12:00'],
+                        ['niedziela', 'Zamknięte'],
+                      ].map(([day, hours]) => (
+                        <tr key={day}>
+                          <th>{day}</th>
+                          <td>{hours}</td>
+                        </tr>
+                      ))}
+                    </tbody>
+                  </table>
+                  <p className="mt-3 fst-italic">
+                    W przypadku świąt godziny otwarcia mogły ulec zmianie.{' '}
+                    <a
+                      href="https://www.google.com/maps/place/Sprzeda%C5%BC+i+wykonawstwo+instalacji+-+Natal+Instalacje,+Miejska+13,+44-200+Rybnik,+Polska/@50.0921913,18.5426409,19z"
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="link-light"
+                    >
+                      Sprawdź tutaj
+                    </a>
+                  </p>
+                </div>
+              </div>
             </div>
           </div>
+        </div>
+        <div className="ratio shadow-lg" style={{paddingBottom: '30%'}}>
+          <iframe
+            title="Mapa lokalizacji firmy Natal Instalacje"
+            src="https://www.google.com/maps/embed?pb=!1m14!1m8!1m3!1d3947.521810683705!2d18.540439660763354!3d50.09281379742586!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x0%3A0x448e4c006b68ed07!2sSprzeda%C5%BC%20i%20wykonawstwo%20instalacji%20-%20Natal%20Instalacje!5e0!3m2!1spl!2spl!4v1622279430446!5m2!1spl!2spl"
+            width="800"
+            height="600"
+            loading="lazy"
+            style={{border: 0, width: '100%', height: '100%'}}
+          />
         </div>
       </section>
     </>

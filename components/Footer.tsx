@@ -1,4 +1,5 @@
 import Link from 'next/link';
+import Phone from '@/components/Phone';
 
 function FacebookLink() {
   return (
@@ -69,17 +70,15 @@ export default function Footer() {
               </div>
               <div className="mt-3">
                 <h5>Telefon</h5>
-                <div>
-                  <a className="text-white d-block" href="tel:500087801">
-                    500 087 801
-                  </a>
-                  <a className="text-white d-block" href="tel:500087803">
-                    500 087 803
-                  </a>
-                  <a className="text-white d-block" href="tel:324231129">
-                    32&nbsp;42&nbsp;31&nbsp;129
-                  </a>
-                </div>
+                <Phone tel="500087801" className="link-light">
+                  500 087 801
+                </Phone>
+                <Phone tel="500087803" className="link-light">
+                  500 087 803
+                </Phone>
+                <Phone tel="324231129" className="link-light">
+                  32&nbsp;42&nbsp;31&nbsp;129
+                </Phone>
               </div>
               <div className="py-3 text-center d-block d-sm-none mt-4">
                 <FacebookLink />
