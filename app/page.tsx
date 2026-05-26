@@ -1,12 +1,63 @@
+import Image from 'next/image';
+
+const ofertaCards = [
+  {
+    id: 'centralne-ogrzewanie',
+    title: 'Centralne Ogrzewanie',
+    img: '/images/gas-boiler.png',
+    alt: 'Kocioł gazowy kondensacyjny',
+    text: 'W naszej ofercie znajdziecie państwo kotły kondensacyjne, pompy ciepła, ogrzewanie podłogowe oraz inne rozwiązania zapewniające właściwe ogrzewanie budynku.',
+  },
+  {
+    id: 'koparka',
+    title: 'Koparka',
+    img: '/images/excavator-sketch.png',
+    alt: 'Minikoparka Kubota KX018-4',
+    text: 'Oferujemy wynajem minikoparki Kubota KX018-4 wraz z wykwalifikowanym operatorem. Wykonujemy wykopy pod instalacje i inne prace ziemne.',
+  },
+  {
+    id: 'fotowoltaika-i-wentylacja',
+    title: 'Fotowoltaika i Wentylacja',
+    img: '/images/photovoltaics-sketch.jpg',
+    alt: 'Panele fotowoltaiczne na dachu',
+    text: 'Zajmujemy się sprzedażą i montażem ogniw fotowoltaicznych i solarów, a także instalacją systemów wentylacji z rekuperacją.',
+  },
+  {
+    id: 'instalacje-wod-kan',
+    title: 'Instalacje WOD-KAN',
+    img: '/images/tap-sketch.png',
+    alt: 'Rysunek techniczny kurka wodnego',
+    text: 'Wykonujemy przyłącza wodne i kanalizacyjne. Współpracujemy z projektantami instalacji zapewniając projekt i nadzór kierownika budowy.',
+  },
+];
+
 export default function HomePage() {
   return (
     <>
       {/* Hero placeholder — carousel goes here in Phase 2 */}
       <section
         id="start"
-        className="bg-secondary"
-        style={{height: '60vh', marginTop: '56px'}}
-      />
+        className="position-relative text-white d-flex align-items-center"
+        style={{
+          minHeight: '60vh',
+          marginTop: '56px',
+          backgroundImage: 'url(/images/natal-pipes-2.jpg)',
+          backgroundSize: 'cover',
+          backgroundPosition: 'center',
+        }}
+      >
+        <div
+          className="position-absolute top-0 start-0 w-100 h-100"
+          style={{background: 'rgba(0,0,0,0.55)'}}
+        />
+        <div className="container position-relative py-5">
+          <h2 className="display-3 fw-bold">Nasza oferta</h2>
+          <p className="lead">
+            Oferujemy szeroki asortyment materiałów instalacyjnych. Zapoznaj się
+            z naszą ofertą.
+          </p>
+        </div>
+      </section>
 
       <section id="natal" className="container py-md-5 my-5">
         <h1 className="display-3">Natal Instalacje</h1>
@@ -34,24 +85,24 @@ export default function HomePage() {
           dziedzinach
         </p>
         <div className="row justify-content-around g-4 mt-2">
-          {[
-            {id: 'centralne-ogrzewanie', title: 'Centralne Ogrzewanie'},
-            {id: 'koparka', title: 'Koparka'},
-            {
-              id: 'fotowoltaika-i-wentylacja',
-              title: 'Fotowoltaika i Wentylacja',
-            },
-            {id: 'instalacje-wod-kan', title: 'Instalacje WOD-KAN'},
-          ].map(({id, title}) => (
+          {ofertaCards.map(({id, title, img, alt, text}) => (
             <div key={id} className="col-md-6 col-lg-3">
               <div className="card h-100">
+                <Image
+                  src={img}
+                  alt={alt}
+                  width={400}
+                  height={260}
+                  className="card-img-top"
+                  style={{
+                    objectFit: 'contain',
+                    background: '#f8f9fa',
+                    padding: '1rem',
+                  }}
+                />
                 <div className="card-body">
                   <h5 className="card-title">{title}</h5>
-                  <p className="card-text">
-                    Lorem ipsum dolor sit amet, consectetur adipiscing elit.
-                    Pellentesque euismod nisi vel magna euismod, nec tincidunt
-                    risus aliquet.
-                  </p>
+                  <p className="card-text">{text}</p>
                 </div>
               </div>
             </div>
