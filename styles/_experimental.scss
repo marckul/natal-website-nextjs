@@ -1,0 +1,88 @@
+// Display heading overrides: responsive fluid scale + Lato uppercase
+.display-1,
+.display-2,
+.display-3,
+.display-4 {
+  font-family:
+    'Lato',
+    -apple-system,
+    BlinkMacSystemFont,
+    'Segoe UI',
+    Roboto,
+    Oxygen,
+    Ubuntu,
+    Cantarell,
+    'Open Sans',
+    'Helvetica Neue',
+    sans-serif;
+  font-weight: bold !important;
+  text-transform: uppercase;
+}
+
+.display-1 {
+  font-size: 2.9rem;
+}
+.display-2 {
+  font-size: 2.4rem;
+}
+.display-3 {
+  font-size: 2rem;
+}
+.display-4 {
+  font-size: 1.6rem;
+}
+
+@media (min-width: map-get($screen-size, sm)) {
+  .display-1 {
+    font-size: 3.6rem;
+  }
+  .display-2 {
+    font-size: 3rem;
+  }
+  .display-3 {
+    font-size: 2.5rem;
+  }
+  .display-4 {
+    font-size: 2rem;
+  }
+}
+
+@media (min-width: map-get($screen-size, lg)) {
+  .display-1 {
+    font-size: 5.5rem;
+  }
+  .display-2 {
+    font-size: 4.5rem;
+  }
+  .display-3 {
+    font-size: 3.5rem;
+  }
+  .display-4 {
+    font-size: 2.5rem;
+  }
+}
+
+// Animated back-link arrow
+.arrow-link {
+  display: inline-block;
+  position: relative;
+  transform: translateX(0);
+  transition: transform 0.25s ease;
+
+  &::before {
+    content: '\2190';
+    position: relative;
+    min-width: 5rem;
+    color: inherit !important;
+  }
+
+  &:hover {
+    transform: translateX(-0.5rem);
+    transition-duration: 0.5s;
+  }
+}
+
+// Utility class for nav top offset on pages without a hero
+.top-nav-margin {
+  padding-top: 10rem !important;
+}

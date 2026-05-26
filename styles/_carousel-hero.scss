@@ -1,0 +1,47 @@
+#carousel-hero {
+  .carousel-caption {
+    text-shadow: $shadow-sm map-get($shadow-color, medium);
+  }
+
+  #fotowoltaika {
+    background-color: #ff5b0234;
+    background-blend-mode: soft-light;
+  }
+
+  #nasza-oferta {
+    background-color: #38140036;
+    background-blend-mode: overlay;
+  }
+
+  .carousel-item {
+    min-height: 100vh !important;
+    background-color: #e3e0db77;
+    background-blend-mode: soft-light;
+    transition:
+      transform 2s ease,
+      opacity 1s ease-out;
+    background-position: center;
+    background-repeat: no-repeat;
+    background-size: cover;
+    background-attachment: scroll;
+  }
+
+  @media (max-width: map-get($screen-size, md)) {
+    #instalacje-co {
+      background-position-x: -190px;
+      background-size: cover;
+    }
+  }
+
+  @media (min-width: map-get($screen-size, md)) {
+    .carousel-item {
+      min-height: 100vmin !important;
+    }
+  }
+
+  @media (min-width: map-get($screen-size, lg)) {
+    .carousel-item {
+      min-height: 100vmin !important;
+    }
+  }
+}

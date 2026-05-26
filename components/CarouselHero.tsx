@@ -78,12 +78,7 @@ export default function CarouselHero() {
             key={slide.id}
             id={slide.id}
             className={`carousel-item d-flex align-items-center justify-content-center${idx === active ? ' active' : ''}`}
-            style={{
-              backgroundImage: `url(${slide.image})`,
-              backgroundSize: 'cover',
-              backgroundPosition: 'center',
-              minHeight: '60vh',
-            }}
+            style={{backgroundImage: `url(${slide.image})`}}
           >
             <div className="carousel-caption d-flex h-100 align-items-center justify-content-center">
               <div className="col mt-5 text-center">

@@ -1,0 +1,31 @@
+// 1. Custom variable overrides — must come before Bootstrap so !default vars are overridden
+@import '../styles/variables';
+
+// 2. Bootstrap 5 SCSS (compiled from source so our variables take effect)
+@import 'bootstrap/scss/bootstrap';
+
+// 3. Google Fonts — Lato used for headings and body
+@import url('https://fonts.googleapis.com/css2?family=Lato:ital,wght@0,300;0,400;0,700;0,900;1,300;1,400&display=swap');
+
+// 4. Structural layout rules
+html,
+body {
+  overflow-x: hidden;
+}
+body {
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+main {
+  flex: 1;
+  padding-top: $nav-height;
+}
+
+// 5. Custom partials
+@import '../styles/layout';
+@import '../styles/carousel-hero';
+@import '../styles/index-page';
+@import '../styles/experimental';
