@@ -29,7 +29,7 @@ export default function RootLayout({
     <html lang="pl" className={`${geistSans.variable} ${geistMono.variable}`}>
       <body>
         <Header />
-        <main>{children}</main>
+        <main style={{paddingTop: '56px'}}>{children}</main>
         <Footer />
       </body>
     </html>

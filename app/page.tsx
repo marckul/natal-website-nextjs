@@ -1,53 +1,32 @@
 import Card from '@/components/Card';
 import CardText from '@/components/CardText';
 import CardTitle from '@/components/CardTitle';
+import CarouselHero from '@/components/CarouselHero';
 import Phone from '@/components/Phone';
 import Row from '@/components/Row';
 
 export default function HomePage() {
   return (
     <>
-      {/* Hero placeholder — carousel replaces this in Phase 2 */}
-      <section
-        id="start"
-        className="position-relative text-white d-flex align-items-center"
-        style={{
-          minHeight: '60vh',
-          marginTop: '56px',
-          backgroundImage: 'url(/images/natal-pipes-2.jpg)',
-          backgroundSize: 'cover',
-          backgroundPosition: 'center',
-        }}
-      >
-        <div
-          className="position-absolute top-0 start-0 w-100 h-100"
-          style={{background: 'rgba(0,0,0,0.55)'}}
-        />
-        <div className="container position-relative py-5">
-          <h2 className="display-3 fw-bold">Nasza oferta</h2>
+      <section id="start">
+        <CarouselHero />
+        <div className="container py-md-5 my-5">
+          <h1 className="display-3">Natal Instalacje</h1>
+          <p className="lead fw-bold">
+            Zajmujemy się kompleksowym wykonawstwem robót instalacyjnych w
+            domach, mieszkaniach, obiektach użyteczności publicznej i innych
+            oraz sprzedażą materiałów instalacyjnych w Rybniku.
+            <br />
+            Nasze doświadczenie w branży sięga 30 lat.
+          </p>
           <p className="lead">
-            Oferujemy szeroki asortyment materiałów instalacyjnych. Zapoznaj się
-            z naszą ofertą.
+            Jesteśmy w stanie wykonać każdą instalację podejmując się nawet
+            najtrudniejszych zadań. Współpracujemy również z zaufanymi
+            projektantami instalacji, którzy projektują dla nas instalacje
+            gazowe oraz inne, załatwiając wszelkie formalności za klienta,
+            włącznie z nadzorem kierownika budowy.
           </p>
         </div>
-      </section>
-
-      <section id="natal" className="container py-md-5 my-5">
-        <h1 className="display-3">Natal Instalacje</h1>
-        <p className="lead fw-bold">
-          Zajmujemy się kompleksowym wykonawstwem robót instalacyjnych w domach,
-          mieszkaniach, obiektach użyteczności publicznej i innych oraz
-          sprzedażą materiałów instalacyjnych w Rybniku.
-          <br />
-          Nasze doświadczenie w branży sięga 30 lat.
-        </p>
-        <p className="lead">
-          Jesteśmy w stanie wykonać każdą instalację podejmując się nawet
-          najtrudniejszych zadań. Współpracujemy również z zaufanymi
-          projektantami instalacji, którzy projektują dla nas instalacje gazowe
-          oraz inne, załatwiając wszelkie formalności za klienta, włącznie z
-          nadzorem kierownika budowy.
-        </p>
       </section>
 
       <section id="oferta" className="container py-md-5 my-5">
