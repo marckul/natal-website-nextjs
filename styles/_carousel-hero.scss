@@ -1,6 +1,9 @@
+@use 'sass:map';
+@use './variables' as *;
+
 #carousel-hero {
   .carousel-caption {
-    text-shadow: $shadow-sm map-get($shadow-color, medium);
+    text-shadow: $shadow-sm map.get($shadow-color, medium);
   }
 
   #fotowoltaika {
@@ -26,20 +29,20 @@
     background-attachment: scroll;
   }
 
-  @media (max-width: map-get($screen-size, md)) {
+  @media (max-width: map.get($screen-size, md)) {
     #instalacje-co {
       background-position-x: -190px;
       background-size: cover;
     }
   }
 
-  @media (min-width: map-get($screen-size, md)) {
+  @media (min-width: map.get($screen-size, md)) {
     .carousel-item {
       min-height: 100vmin !important;
     }
   }
 
-  @media (min-width: map-get($screen-size, lg)) {
+  @media (min-width: map.get($screen-size, lg)) {
     .carousel-item {
       min-height: 100vmin !important;
     }

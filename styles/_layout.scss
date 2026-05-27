@@ -1,3 +1,6 @@
+@use 'sass:map';
+@use './variables' as *;
+
 // ── Base elements ─────────────────────────────────────────────────────────────
 *,
 html {
@@ -33,10 +36,10 @@ h6 {
 }
 
 body {
-  @media (min-width: map-get($screen-size, xl)) {
+  @media (min-width: map.get($screen-size, xl)) {
     font-size: 17px;
   }
-  @media (min-width: map-get($screen-size, xxl)) {
+  @media (min-width: map.get($screen-size, xxl)) {
     font-size: 18px;
   }
 }
@@ -121,7 +124,7 @@ article,
 
 // ── Navigation ────────────────────────────────────────────────────────────────
 #navbar-main {
-  box-shadow: $shadow-xs 0.01rem map-get($shadow-color, light);
+  box-shadow: $shadow-xs 0.01rem map.get($shadow-color, light);
   min-height: $nav-height;
   max-width: 100vw;
   text-transform: uppercase !important;
@@ -207,7 +210,7 @@ article,
 .display-3,
 .display-4 {
   font-weight: normal;
-  text-shadow: $shadow-sm map-get($shadow-color, light);
+  text-shadow: $shadow-sm map.get($shadow-color, light);
 }
 
 // ── Cards ─────────────────────────────────────────────────────────────────────
@@ -227,7 +230,7 @@ a .card {
   }
 
   &:hover {
-    box-shadow: $shadow-hover map-get($shadow-color, light) !important;
+    box-shadow: $shadow-hover map.get($shadow-color, light) !important;
     transform: scale(1.025);
   }
 }
@@ -265,7 +268,7 @@ a .card {
 
 // ── Kontakt section ───────────────────────────────────────────────────────────
 #kontakt {
-  @media (min-width: map-get($screen-size, sm)) {
+  @media (min-width: map.get($screen-size, sm)) {
     h2,
     h3,
     address {

@@ -1,3 +1,6 @@
+@use 'sass:map';
+@use './variables' as *;
+
 // Display heading overrides: responsive fluid scale + Lato uppercase
 .display-1,
 .display-2,
@@ -32,7 +35,7 @@
   font-size: 1.6rem;
 }
 
-@media (min-width: map-get($screen-size, sm)) {
+@media (min-width: map.get($screen-size, sm)) {
   .display-1 {
     font-size: 3.6rem;
   }
@@ -47,7 +50,7 @@
   }
 }
 
-@media (min-width: map-get($screen-size, lg)) {
+@media (min-width: map.get($screen-size, lg)) {
   .display-1 {
     font-size: 5.5rem;
   }

@@ -1,3 +1,6 @@
+@use 'sass:map';
+@use './variables' as *;
+
 // Contact / index-page specific styles
 .contact-section {
   background-repeat: no-repeat;
@@ -28,7 +31,7 @@
     max-height: 95vh;
   }
 
-  @media (min-width: map-get($screen-size, lg)) {
+  @media (min-width: map.get($screen-size, lg)) {
     max-height: 60vmin;
   }
 }
