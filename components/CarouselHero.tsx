@@ -65,7 +65,9 @@ export default function CarouselHero() {
           <button
             key={slide.id}
             type="button"
+            data-bs-target="#carousel-hero"
             aria-label={`Slajd ${idx + 1}`}
+            aria-current={idx === active ? 'true' : undefined}
             className={idx === active ? 'active' : ''}
             onClick={() => setActive(idx)}
           />
