@@ -33,7 +33,6 @@ export default function Card({
             className="card-img-top"
             style={{
               objectFit: 'contain',
-              background: '#f8f9fa',
               padding: '1rem',
               width: '100%',
               height: 'auto',
