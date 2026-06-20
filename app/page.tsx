@@ -153,11 +153,11 @@ export default function HomePage() {
               </div>
               <div className="col-md-4 col-lg-3 mb-5">
                 <h2>Nasz adres</h2>
-                <p>
-                  <address className="mb-0">Miejska 13, 44-200 Rybnik</address>
-                  Natalia Kula &quot;Natal&quot; PHU
+                <address className="mb-0">
+                  Miejska 13, 44-200 Rybnik
                   <br />
-                </p>
+                  Natalia Kula &quot;Natal&quot; PHU
+                </address>
               </div>
               <div className="col-md-3 col-lg-2 mb-5">
                 <h2>Telefon</h2>
