@@ -1,0 +1,61 @@
+@use 'sass:map';
+@use './variables' as *;
+
+// Hero blocks ported from the predecessor (Gatsby) site's Bootstrap 4
+// jumbotrons, which Bootstrap 5 removed. Rendered full-width as page heroes
+// directly under the fixed navbar.
+
+// `/oferta/[slug]` — offer-subpage.css `.offer-subpage-jumbotron`, plus the
+// padding Bootstrap 4's `.jumbotron`/`.jumbotron-fluid` used to supply.
+.offer-subpage-jumbotron {
+  padding: 2rem 0;
+  margin-bottom: 2rem;
+  color: #fff;
+  background-color: #73635a;
+  background-image: url('/images/rysunek-kurki.jpg');
+  background-position: left bottom;
+  background-size: cover;
+  background-repeat: no-repeat;
+  background-blend-mode: overlay;
+
+  @media (min-width: map.get($screen-size, sm)) {
+    padding: 4rem 0;
+  }
+  @media (max-width: map.get($screen-size, md)) {
+    text-align: center;
+  }
+}
+
+// `/oferta` list — oferta.module.css `.main-offer .jumbotron`.
+.main-offer-jumbotron {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  min-height: 60vh;
+  padding: 6rem 0;
+  color: #fff;
+  background-color: #3b211277;
+  background-image: url('/images/natal-pipes-2.jpg');
+  background-position: left;
+  background-size: cover;
+  background-repeat: no-repeat;
+  background-blend-mode: overlay;
+
+  @media (max-width: map.get($screen-size, md)) {
+    text-align: center;
+  }
+}
+
+// `/aktualnosci` list — layout.scss `.jumbotron-hero` (cream, tall).
+.jumbotron-hero {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  min-height: 60vh;
+  padding: 4rem 0;
+  background-color: $jumbotron-color;
+
+  @media (max-width: map.get($screen-size, md)) {
+    text-align: center;
+  }
+}
