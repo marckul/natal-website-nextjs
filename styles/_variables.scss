@@ -39,7 +39,9 @@ $bootstrap-font-family:
   -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue',
   Arial, 'Noto Sans', 'Liberation Sans', sans-serif, 'Apple Color Emoji',
   'Segoe UI Emoji', 'Segoe UI Symbol', 'Noto Color Emoji';
-$lato-font-family: 'Lato', $bootstrap-font-family;
+// `--font-lato` is provided by next/font (see app/layout.tsx); fall back to the
+// Bootstrap system stack until it loads.
+$lato-font-family: var(--font-lato), $bootstrap-font-family;
 $brand-font-family: $bootstrap-font-family;
 
 // ── Shadows ───────────────────────────────────────────────────────────────────
