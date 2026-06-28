@@ -1,18 +1,101 @@
 import type {Metadata} from 'next';
+import Link from 'next/link';
 import {notFound} from 'next/navigation';
+
+import {createClient} from 'contentful';
+import {BLOCKS, INLINES, type Document} from '@contentful/rich-text-types';
+import {
+  documentToReactComponents,
+  type NodeRenderer,
+  type Options,
+} from '@contentful/rich-text-react-renderer';
 import GoBackLink from '@/components/GoBackLink';
+
 import {formatDatePL} from '@/lib/dates';
-import {getPost, posts} from '@/lib/mock-aktualnosci';
+import {slugify} from '@/lib/slugify';
+
+const MODEL_DANYCH = 'MODEL_DANYCH';
+
+// One shared Delivery client for this page's queries.
+const client = createClient({
+  space: process.env.CONTENTFUL_SPACE_ID || '',
+  accessToken: process.env.CONTENTFUL_ACCESS_TOKEN || '',
+  host: process.env.CONTENTFUL_HOST || '',
+});
+
+// Offer links always point to offer subpages under /oferta/<slug>.
+const renderOfferLink: NodeRenderer = (node, children) => {
+  const target = node.data.target as {fields?: {slug?: string}};
+  const slug = target.fields?.slug;
+  if (!slug) return <>{children}</>;
+  return <Link href={`/oferta/${slug}`}>{children}</Link>;
+};
+
+// rich text renderer settings for the news post body
+const bodyOptions: Options = {
+  renderNode: {
+    [BLOCKS.EMBEDDED_ASSET]: (node) => {
+      const asset = node.data.target as {
+        fields?: {title?: string; description?: string; file?: {url?: string}};
+      };
+      const url = asset.fields?.file?.url;
+      if (!url) return null;
+      const alt = asset.fields?.description || asset.fields?.title || '';
+
+      // Contentful asset URLs are protocol-relative, so we prefix `https:`.
+      return (
+        <figure className="my-4">
+          {/* eslint-disable-next-line @next/next/no-img-element */}
+          <img src={`https:${url}`} alt={alt} className="img-fluid" />
+        </figure>
+      );
+    },
+    [INLINES.ENTRY_HYPERLINK]: renderOfferLink,
+  },
+};
+
+// Fields we read off each `newsPost` entry. The post has no `slug` field — the
+// URL slug is derived from the title via slugify (matching the predecessor).
+interface NewsPostFields {
+  title: string;
+  publishDate: string;
+  intercept: string;
+  body: Document;
+}
+
+async function getNewsPosts() {
+  const res = await client.getEntries({content_type: 'newsPost'});
+  return res.items
+    .map((item) => item.fields as unknown as NewsPostFields)
+    .filter((fields) => fields.title !== MODEL_DANYCH);
+}
+
+async function getNewsPost(date: string, slug: string) {
+  // No slug field in Contentful, so narrow by publishDate, then match the
+  // title-derived slug among that day's posts.
+  const res = await client.getEntries({
+    content_type: 'newsPost',
+    'fields.publishDate': date,
+  });
+  const item = res.items.find(
+    (item) => slugify((item.fields as unknown as NewsPostFields).title) === slug
+  );
+  return item ? (item.fields as unknown as NewsPostFields) : undefined;
+}
 
 type Props = {params: Promise<{date: string; slug: string}>};
 
 export async function generateStaticParams() {
-  return posts.map((post) => ({date: post.publishDate, slug: post.slug}));
+  const posts = await getNewsPosts();
+  return posts.map((post) => ({
+    date: post.publishDate,
+    slug: slugify(post.title),
+  }));
 }
 
 export async function generateMetadata({params}: Props): Promise<Metadata> {
   const {date, slug} = await params;
-  const post = getPost(date, slug);
+  const post = await getNewsPost(date, slug);
   if (!post) return {};
   return {
     title: `${post.title} — Natal Instalacje`,
@@ -22,10 +105,8 @@ export async function generateMetadata({params}: Props): Promise<Metadata> {
 
 export default async function AktualnosciPostPage({params}: Props) {
   const {date, slug} = await params;
-  const post = getPost(date, slug);
+  const post = await getNewsPost(date, slug);
   if (!post) notFound();
-
-  const paragraphs = post.body as string[];
 
   return (
     <div className="container mt-5 py-5">
@@ -38,9 +119,7 @@ export default async function AktualnosciPostPage({params}: Props) {
           <h1 className="display-3">{post.title}</h1>
           <p>Opublikowano: {formatDatePL(post.publishDate)}</p>
         </div>
-        {paragraphs.map((text, i) => (
-          <p key={i}>{text}</p>
-        ))}
+        {documentToReactComponents(post.body, bodyOptions)}
       </article>
     </div>
   );
