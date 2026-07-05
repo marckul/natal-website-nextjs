@@ -82,10 +82,14 @@ export async function getOfferPageOurOffer() {
 async function getOfferPageSections() {
   const res = await client.getEntries({content_type: 'offerPageSection'});
 
-  // Prepare data for display in the offer page.
+  // Prepare data for display in the offer page. Carry the entry id for a stable
+  // React key (section positions aren't guaranteed unique).
   return res.items
-    .map((item) => item.fields as unknown as OfferPageSectionFields)
-    .filter((fields) => fields.title !== MODEL_DANYCH)
+    .map((item) => ({
+      id: item.sys.id,
+      ...(item.fields as unknown as OfferPageSectionFields),
+    }))
+    .filter((section) => section.title !== MODEL_DANYCH)
     .sort((a, b) => a.sectionsPosition - b.sectionsPosition);
 }
 
@@ -130,7 +134,7 @@ export default async function OfertaPage() {
       </section>
 
       {sections.map((section) => (
-        <section key={section.sectionsPosition}>
+        <section key={section.id}>
           <div className="jumbotron-hero">
             <div className="container">
               <h1 className="display-2">{section.title}</h1>

@@ -1,3 +1,4 @@
+import {cache} from 'react';
 import type {Metadata} from 'next';
 import Link from 'next/link';
 import {notFound} from 'next/navigation';
@@ -61,18 +62,20 @@ async function getNewsPosts() {
     .filter((fields) => fields.title !== MODEL_DANYCH);
 }
 
-async function getNewsPost(date: string, slug: string) {
+// Cached so generateMetadata and the page share one fetch per request.
+const getNewsPost = cache(async (date: string, slug: string) => {
   // No slug field in Contentful, so narrow by publishDate, then match the
-  // title-derived slug among that day's posts.
+  // title-derived slug.
   const res = await client.getEntries({
     content_type: 'newsPost',
     'fields.publishDate': date,
   });
-  const item = res.items.find(
-    (item) => slugify((item.fields as unknown as NewsPostFields).title) === slug
-  );
-  return item ? (item.fields as unknown as NewsPostFields) : undefined;
-}
+  const posts = res.items
+    .map((entry) => entry.fields as unknown as NewsPostFields)
+    .filter((post) => post.title !== MODEL_DANYCH);
+  const post = posts.find((post) => slugify(post.title) === slug);
+  return post;
+});
 
 type Props = {params: Promise<{date: string; slug: string}>};
 

@@ -1,3 +1,4 @@
+import {cache} from 'react';
 import type {Metadata} from 'next';
 import Link from 'next/link';
 import {notFound} from 'next/navigation';
@@ -59,15 +60,20 @@ async function getOfferSubpages() {
     .filter((fields) => fields.title !== MODEL_DANYCH);
 }
 
-async function getOfferSubpage(slug: string) {
+// Cached so generateMetadata and the page component share a single fetch.
+const getOfferSubpage = cache(async (slug: string) => {
   const res = await client.getEntries({
     content_type: 'offerPageSubpage',
     'fields.slug': slug,
     limit: 1,
   });
-  const item = res.items[0];
-  return item ? (item.fields as unknown as OfferSubpageFields) : undefined;
-}
+  const fields = res.items[0]?.fields as unknown as
+    | OfferSubpageFields
+    | undefined;
+  // Don't render the "MODEL_DANYCH" template entry, even on a direct URL hit.
+  if (!fields || fields.title === MODEL_DANYCH) return undefined;
+  return fields;
+});
 
 type Props = {params: Promise<{slug: string}>};
 
