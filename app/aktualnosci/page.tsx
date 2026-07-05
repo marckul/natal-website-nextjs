@@ -1,19 +1,10 @@
 import type {Metadata} from 'next';
 import Link from 'next/link';
-
-import {createClient} from 'contentful';
-
+import {client} from '@/lib/contentful';
 import {formatDatePL} from '@/lib/dates';
 import {slugify} from '@/lib/slugify';
 
 const MODEL_DANYCH = 'MODEL_DANYCH';
-
-// One shared Delivery client for this page's queries.
-const client = createClient({
-  space: process.env.CONTENTFUL_SPACE_ID || '',
-  accessToken: process.env.CONTENTFUL_ACCESS_TOKEN || '',
-  host: process.env.CONTENTFUL_HOST || '',
-});
 
 // Fields we read off each `newsPost` entry for the list view. `body` (rich text)
 // is only needed by the post subpage, so it's left out here.

@@ -1,23 +1,15 @@
 import type {Metadata} from 'next';
 import Link from 'next/link';
 import {notFound} from 'next/navigation';
-
-import {createClient} from 'contentful';
 import {BLOCKS, INLINES, type Document} from '@contentful/rich-text-types';
 import {
   documentToReactComponents,
   type NodeRenderer,
   type Options,
 } from '@contentful/rich-text-react-renderer';
+import {client} from '@/lib/contentful';
 
 const MODEL_DANYCH = 'MODEL_DANYCH';
-
-// One shared Delivery client for this page's queries.
-const client = createClient({
-  space: process.env.CONTENTFUL_SPACE_ID || '',
-  accessToken: process.env.CONTENTFUL_ACCESS_TOKEN || '',
-  host: process.env.CONTENTFUL_HOST || '',
-});
 
 // Offer links always point to offer subpages under /oferta/<slug>.
 const renderOfferLink: NodeRenderer = (node, children) => {
