@@ -1,56 +1,17 @@
 import type {Metadata} from 'next';
-import Link from 'next/link';
-import {BLOCKS, INLINES, type Document} from '@contentful/rich-text-types';
-import {
-  documentToReactComponents,
-  type NodeRenderer,
-  type Options,
-} from '@contentful/rich-text-react-renderer';
+import {BLOCKS, type Document} from '@contentful/rich-text-types';
+import type {RenderNode} from '@contentful/rich-text-react-renderer';
 import {client} from '@/lib/contentful';
+import {renderRichText} from '@/lib/rich-text';
 
 const MODEL_DANYCH = 'MODEL_DANYCH';
 
-// For now, offer links always point to offer subpages under /oferta/<slug>
-const renderOfferLink: NodeRenderer = (node, children) => {
-  const target = node.data.target as {fields?: {slug?: string}};
-  const slug = target.fields?.slug;
-  if (!slug) return <>{children}</>;
-  return <Link href={`/oferta/${slug}`}>{children}</Link>;
-};
-
-// "Nasza oferta" two columns: SPRZEDAŻ / WYKONAWSTWO-USŁUGI headings render as
+// "Nasza oferta" columns: render their SPRZEDAŻ / WYKONAWSTWO-USŁUGI headings as
 // big uppercase display-4.
-const columnOptions: Options = {
-  renderNode: {
-    [BLOCKS.HEADING_2]: (_node, children) => (
-      <h2 className="display-4">{children}</h2>
-    ),
-    [INLINES.ENTRY_HYPERLINK]: renderOfferLink,
-  },
-};
-
-// Offer-section body: default headings, an inline image, and offer links.
-const sectionOptions: Options = {
-  renderNode: {
-    // Embedded image → plain <img> for now (next/image swap is a follow-up that
-    // needs images.ctfassets.net in next.config.ts remotePatterns). Contentful
-    // asset URLs are protocol-relative, so we prefix `https:`.
-    [BLOCKS.EMBEDDED_ASSET]: (node) => {
-      const asset = node.data.target as {
-        fields?: {title?: string; description?: string; file?: {url?: string}};
-      };
-      const url = asset.fields?.file?.url;
-      if (!url) return null;
-      const alt = asset.fields?.description || asset.fields?.title || '';
-      return (
-        <figure className="my-4">
-          {/* eslint-disable-next-line @next/next/no-img-element */}
-          <img src={`https:${url}`} alt={alt} className="img-fluid" />
-        </figure>
-      );
-    },
-    [INLINES.ENTRY_HYPERLINK]: renderOfferLink,
-  },
+const ourOfferColumnHeadings: RenderNode = {
+  [BLOCKS.HEADING_2]: (_node, children) => (
+    <h2 className="display-4">{children}</h2>
+  ),
 };
 
 // Fields we read off the `offerPageOurOffer` entry. Names mirror Contentful 1:1;
@@ -100,7 +61,7 @@ export const metadata: Metadata = {
 };
 
 export default async function OfertaPage() {
-  const [fields, sections] = await Promise.all([
+  const [ourOfferFields, sections] = await Promise.all([
     getOfferPageOurOffer(),
     getOfferPageSections(),
   ]);
@@ -111,8 +72,8 @@ export default async function OfertaPage() {
         <div className="main-offer-jumbotron">
           <div className="container">
             <div className="col-md-8">
-              <h1 className="display-2 fw-normal">{fields?.title}</h1>
-              <p className="lead fw-normal">{fields?.leadText}</p>
+              <h1 className="display-2 fw-normal">{ourOfferFields?.title}</h1>
+              <p className="lead fw-normal">{ourOfferFields?.leadText}</p>
             </div>
           </div>
         </div>
@@ -121,12 +82,18 @@ export default async function OfertaPage() {
           <div className="container">
             <div className="row justify-content-around">
               <div className="col-md flex-grow-1">
-                {fields?.bodyCol1 &&
-                  documentToReactComponents(fields.bodyCol1, columnOptions)}
+                {ourOfferFields?.bodyCol1 &&
+                  renderRichText(
+                    ourOfferFields.bodyCol1,
+                    ourOfferColumnHeadings
+                  )}
               </div>
               <div className="col-md flex-grow-1">
-                {fields?.bodyCol2 &&
-                  documentToReactComponents(fields.bodyCol2, columnOptions)}
+                {ourOfferFields?.bodyCol2 &&
+                  renderRichText(
+                    ourOfferFields.bodyCol2,
+                    ourOfferColumnHeadings
+                  )}
               </div>
             </div>
           </div>
@@ -148,10 +115,7 @@ export default async function OfertaPage() {
             <div className="container py-5 my-5">
               <div className="row justify-content-around">
                 <div className="col-md">
-                  {documentToReactComponents(
-                    section.offerSectionBody,
-                    sectionOptions
-                  )}
+                  {renderRichText(section.offerSectionBody)}
                 </div>
               </div>
             </div>

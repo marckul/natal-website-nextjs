@@ -1,47 +1,11 @@
 import {cache} from 'react';
 import type {Metadata} from 'next';
-import Link from 'next/link';
 import {notFound} from 'next/navigation';
-import {BLOCKS, INLINES, type Document} from '@contentful/rich-text-types';
-import {
-  documentToReactComponents,
-  type NodeRenderer,
-  type Options,
-} from '@contentful/rich-text-react-renderer';
+import type {Document} from '@contentful/rich-text-types';
 import {client} from '@/lib/contentful';
+import {renderRichText} from '@/lib/rich-text';
 
 const MODEL_DANYCH = 'MODEL_DANYCH';
-
-// Offer links always point to offer subpages under /oferta/<slug>.
-const renderOfferLink: NodeRenderer = (node, children) => {
-  const target = node.data.target as {fields?: {slug?: string}};
-  const slug = target.fields?.slug;
-  if (!slug) return <>{children}</>;
-  return <Link href={`/oferta/${slug}`}>{children}</Link>;
-};
-
-// rich text renderer settings for the offer subpage body
-const bodyOptions: Options = {
-  renderNode: {
-    [BLOCKS.EMBEDDED_ASSET]: (node) => {
-      const asset = node.data.target as {
-        fields?: {title?: string; description?: string; file?: {url?: string}};
-      };
-      const url = asset.fields?.file?.url;
-      if (!url) return null;
-      const alt = asset.fields?.description || asset.fields?.title || '';
-
-      // Contentful asset URLs are protocol-relative, so we prefix `https:`.
-      return (
-        <figure className="my-4">
-          {/* eslint-disable-next-line @next/next/no-img-element */}
-          <img src={`https:${url}`} alt={alt} className="img-fluid" />
-        </figure>
-      );
-    },
-    [INLINES.ENTRY_HYPERLINK]: renderOfferLink,
-  },
-};
 
 // Fields we read off each `offerPageSubpage` entry.
 // `leadTextLong` is the fallback lead when the shorter `leadText` is empty.
@@ -109,9 +73,7 @@ export default async function OfertaPodstronaPage({params}: Props) {
       </section>
 
       <div className="container my-5 py-5">
-        <article>
-          {documentToReactComponents(pageContent.body, bodyOptions)}
-        </article>
+        <article>{renderRichText(pageContent.body)}</article>
       </div>
     </>
   );
