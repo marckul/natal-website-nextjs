@@ -1,6 +1,7 @@
 import type {Metadata} from 'next';
 import Link from 'next/link';
-import {client} from '@/lib/contentful';
+
+import {getClient} from '@/lib/contentful';
 import {formatDatePL} from '@/lib/dates';
 import {slugify} from '@/lib/slugify';
 
@@ -17,7 +18,7 @@ interface NewsPostFields {
 async function getNewsPosts() {
   // Contentful sorts newest-first; the post subpage URL is
   // /aktualnosci/<publishDate>/<slug>, with the slug derived from the title.
-  const res = await client.getEntries({
+  const res = await getClient().getEntries({
     content_type: 'newsPost',
     order: ['-fields.publishDate'],
   });

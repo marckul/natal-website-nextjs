@@ -2,7 +2,8 @@ import {cache} from 'react';
 import type {Metadata} from 'next';
 import {notFound} from 'next/navigation';
 import type {Document} from '@contentful/rich-text-types';
-import {client} from '@/lib/contentful';
+
+import {getClient} from '@/lib/contentful';
 import {renderRichText} from '@/lib/rich-text';
 
 const MODEL_DANYCH = 'MODEL_DANYCH';
@@ -18,15 +19,15 @@ interface OfferSubpageFields {
 }
 
 async function getOfferSubpages() {
-  const res = await client.getEntries({content_type: 'offerPageSubpage'});
+  const res = await getClient().getEntries({content_type: 'offerPageSubpage'});
   return res.items
-    .map((item) => item.fields as unknown as OfferSubpageFields)
+    .map((entry) => entry.fields as unknown as OfferSubpageFields)
     .filter((fields) => fields.title !== MODEL_DANYCH);
 }
 
-// Cached so generateMetadata and the page component share a single fetch.
+// Cached so generateMetadata and the page share one fetch per request.
 const getOfferSubpage = cache(async (slug: string) => {
-  const res = await client.getEntries({
+  const res = await getClient().getEntries({
     content_type: 'offerPageSubpage',
     'fields.slug': slug,
     limit: 1,

@@ -2,16 +2,17 @@ import {cache} from 'react';
 import type {Metadata} from 'next';
 import {notFound} from 'next/navigation';
 import type {Document} from '@contentful/rich-text-types';
+
 import GoBackLink from '@/components/GoBackLink';
-import {client} from '@/lib/contentful';
+import {getClient} from '@/lib/contentful';
 import {formatDatePL} from '@/lib/dates';
-import {slugify} from '@/lib/slugify';
 import {renderRichText} from '@/lib/rich-text';
+import {slugify} from '@/lib/slugify';
 
 const MODEL_DANYCH = 'MODEL_DANYCH';
 
-// Fields we read off each `newsPost` entry. The post has no `slug` field — the
-// URL slug is derived from the title via slugify (matching the predecessor).
+/** Fields we read off each `newsPost` entry. The post has no `slug` field — the
+ * URL slug is derived from the title via slugify (matching the predecessor). */
 interface NewsPostFields {
   title: string;
   publishDate: string;
@@ -20,17 +21,17 @@ interface NewsPostFields {
 }
 
 async function getNewsPosts() {
-  const res = await client.getEntries({content_type: 'newsPost'});
+  const res = await getClient().getEntries({content_type: 'newsPost'});
   return res.items
-    .map((item) => item.fields as unknown as NewsPostFields)
-    .filter((fields) => fields.title !== MODEL_DANYCH);
+    .map((entry) => entry.fields as unknown as NewsPostFields)
+    .filter((post) => post.title !== MODEL_DANYCH);
 }
 
 // Cached so generateMetadata and the page share one fetch per request.
 const getNewsPost = cache(async (date: string, slug: string) => {
   // No slug field in Contentful, so narrow by publishDate, then match the
   // title-derived slug.
-  const res = await client.getEntries({
+  const res = await getClient().getEntries({
     content_type: 'newsPost',
     'fields.publishDate': date,
   });

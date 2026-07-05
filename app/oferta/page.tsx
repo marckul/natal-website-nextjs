@@ -1,7 +1,8 @@
 import type {Metadata} from 'next';
-import {BLOCKS, type Document} from '@contentful/rich-text-types';
 import type {RenderNode} from '@contentful/rich-text-react-renderer';
-import {client} from '@/lib/contentful';
+import {BLOCKS, type Document} from '@contentful/rich-text-types';
+
+import {getClient} from '@/lib/contentful';
 import {renderRichText} from '@/lib/rich-text';
 
 const MODEL_DANYCH = 'MODEL_DANYCH';
@@ -16,7 +17,7 @@ const ourOfferColumnHeadings: RenderNode = {
 
 // Fields we read off the `offerPageOurOffer` entry. Names mirror Contentful 1:1;
 // the two columns are rich-text `Document`s. Loose cast for now.
-interface OfferPageFields {
+interface OfferPageOurOfferFields {
   title?: string;
   leadText?: string;
   bodyCol1?: Document;
@@ -31,24 +32,24 @@ interface OfferPageSectionFields {
   offerSectionBody: Document;
 }
 
-export async function getOfferPageOurOffer() {
-  const res = await client.getEntries({content_type: 'offerPageOurOffer'});
-
-  // Skip the old "MODEL_DANYCH" template entry; return the two rich-text columns
-  // (SPRZEDAŻ / WYKONAWSTWO-USŁUGI) from the real entry. Loose cast for now.
-  const ourOffer = res.items.find((item) => item.fields.title !== MODEL_DANYCH);
-  return ourOffer?.fields as OfferPageFields | undefined;
+async function getOfferPageOurOffer() {
+  const res = await getClient().getEntries({
+    content_type: 'offerPageOurOffer',
+  });
+  return res.items
+    .map((entry) => entry.fields as OfferPageOurOfferFields)
+    .find((fields) => fields.title !== MODEL_DANYCH);
 }
 
 async function getOfferPageSections() {
-  const res = await client.getEntries({content_type: 'offerPageSection'});
+  const res = await getClient().getEntries({content_type: 'offerPageSection'});
 
   // Prepare data for display in the offer page. Carry the entry id for a stable
   // React key (section positions aren't guaranteed unique).
   return res.items
-    .map((item) => ({
-      id: item.sys.id,
-      ...(item.fields as unknown as OfferPageSectionFields),
+    .map((entry) => ({
+      id: entry.sys.id,
+      ...(entry.fields as unknown as OfferPageSectionFields),
     }))
     .filter((section) => section.title !== MODEL_DANYCH)
     .sort((a, b) => a.sectionsPosition - b.sectionsPosition);
