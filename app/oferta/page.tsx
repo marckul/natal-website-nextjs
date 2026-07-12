@@ -6,6 +6,10 @@ import {getClient, isModelDanychTitle} from '@/lib/contentful';
 import {renderRichText} from '@/lib/rich-text';
 import {slugify} from '@/lib/slugify';
 
+// `/oferta` reads its SEO metadata from the `siteMetadata` entry tagged with
+// this fixed `isForPage` value.
+const META_IS_FOR_PAGE = 'Strona Oferty';
+
 // Fields we read off the `offerPageOurOffer` entry. Names mirror Contentful 1:1;
 // the two columns are rich-text `Document`s. Loose cast for now.
 interface OfferPageOurOfferFields {
@@ -55,11 +59,50 @@ async function getOfferPageSections(): Promise<OfferPageSection[]> {
     .sort((a, b) => a.sectionsPosition - b.sectionsPosition);
 }
 
-export const metadata: Metadata = {
-  title: 'Oferta — Natal Instalacje',
-  description:
-    'Oferta firmy Natal Instalacje: centralne ogrzewanie, instalacje gazowe, WOD-KAN, fotowoltaika, wentylacja.',
-};
+// Fields we read off a `siteMetadata` entry (SEO metadata per page).
+interface SiteMetadataFields {
+  isForPage?: string;
+  title: string;
+  url: string;
+  description: string;
+  keywords: string[];
+}
+
+async function getSiteMetadata(isForPage: string) {
+  const res = await getClient().getEntries({
+    content_type: 'siteMetadata',
+    'fields.isForPage': isForPage,
+    limit: 1,
+  });
+  return res.items[0]?.fields as unknown as SiteMetadataFields | undefined;
+}
+
+export async function generateMetadata(): Promise<Metadata> {
+  const meta = await getSiteMetadata(META_IS_FOR_PAGE);
+  if (!meta) return {};
+
+  // page URL for canonical + og:url. Some `siteMetadata` entries store the
+  // domain without a scheme, so ensure an absolute https URL.
+  const rawOrigin = meta.url.replace(/\/$/, '');
+  const origin = rawOrigin.startsWith('http')
+    ? rawOrigin
+    : `https://${rawOrigin}`;
+  const pageUrl = `${origin}/oferta`;
+
+  return {
+    title: meta.title,
+    description: meta.description,
+    keywords: meta.keywords,
+    alternates: {canonical: pageUrl},
+    openGraph: {
+      title: meta.title,
+      description: meta.description,
+      url: pageUrl,
+      locale: 'pl_PL',
+      type: 'website',
+    },
+  };
+}
 
 export default async function OfertaPage() {
   const [ourOfferFields, sections] = await Promise.all([
