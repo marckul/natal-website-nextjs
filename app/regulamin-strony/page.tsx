@@ -1,20 +1,33 @@
 import type {Metadata} from 'next';
+import {notFound} from 'next/navigation';
+import type {Document} from '@contentful/rich-text-types';
+
 import GoBackLink from '@/components/GoBackLink';
+import {getClient} from '@/lib/contentful';
+import {renderRichText} from '@/lib/rich-text';
+
+interface PrivacyPolicyFields {
+  title?: string;
+  body?: Document;
+}
+
+async function getPrivacyPolicy() {
+  const res = await getClient().getEntries({
+    content_type: 'privacyPolicy',
+    limit: 1,
+  });
+  return res.items[0]?.fields as PrivacyPolicyFields | undefined;
+}
 
 export const metadata: Metadata = {
   title: 'Regulamin strony — Natal Instalacje',
   description: 'Regulamin strony internetowej Natal Instalacje.',
 };
 
-// Body is the Contentful `regulaminPortalu` rich text on the predecessor site;
-// rendered here as a Lorem placeholder until the Contentful phase wires up the
-// live query (same mock convention as /oferta/[slug] and the news posts).
-const loremBody: string[] = [
-  'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.',
-  'Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.',
-];
+export default async function RegulaminStronyPage() {
+  const pageContent = await getPrivacyPolicy();
+  if (!pageContent) notFound();
 
-export default function RegulaminStronyPage() {
   return (
     <>
       <section className="jumbotron-hero">
@@ -28,9 +41,7 @@ export default function RegulaminStronyPage() {
           <GoBackLink />
         </nav>
         <article>
-          {loremBody.map((text, i) => (
-            <p key={i}>{text}</p>
-          ))}
+          {pageContent.body && renderRichText(pageContent.body)}
         </article>
       </div>
     </>
