@@ -6,9 +6,9 @@ import {getClient, isModelDanychTitle} from '@/lib/contentful';
 import {renderRichText} from '@/lib/rich-text';
 import {slugify} from '@/lib/slugify';
 
-// `/oferta` reads its SEO metadata from the `siteMetadata` entry tagged with
-// this fixed `isForPage` value.
-const META_IS_FOR_PAGE = 'Strona Oferty';
+// `/oferta` reads its SEO metadata from the `siteMetadata` entry whose
+// `isForPage` field matches this value.
+const META_TARGET_PAGE = 'Strona Oferty';
 
 // Fields we read off the `offerPageOurOffer` entry. Names mirror Contentful 1:1;
 // the two columns are rich-text `Document`s. Loose cast for now.
@@ -68,17 +68,17 @@ interface SiteMetadataFields {
   keywords: string[];
 }
 
-async function getSiteMetadata(isForPage: string) {
+async function getSiteMetadata(targetPage: string) {
   const res = await getClient().getEntries({
     content_type: 'siteMetadata',
-    'fields.isForPage': isForPage,
+    'fields.isForPage': targetPage,
     limit: 1,
   });
   return res.items[0]?.fields as unknown as SiteMetadataFields | undefined;
 }
 
 export async function generateMetadata(): Promise<Metadata> {
-  const meta = await getSiteMetadata(META_IS_FOR_PAGE);
+  const meta = await getSiteMetadata(META_TARGET_PAGE);
   if (!meta) return {};
 
   // page URL for canonical + og:url. Some `siteMetadata` entries store the

@@ -7,9 +7,9 @@ import CarouselHero from '@/components/CarouselHero';
 import Phone from '@/components/Phone';
 import Row from '@/components/Row';
 
-// This page reads its SEO metadata from the `siteMetadata` entry with the
-// below `isForPage` value.
-const META_IS_FOR_PAGE = 'Cala witryna';
+// This page reads its SEO metadata from the `siteMetadata` entry whose
+// `isForPage` field matches this value.
+const META_TARGET_PAGE = 'Cala witryna';
 
 // Fields we read off a `siteMetadata` entry (SEO metadata per page).
 interface SiteMetadataFields {
@@ -20,17 +20,17 @@ interface SiteMetadataFields {
   keywords: string[];
 }
 
-async function getSiteMetadata(isForPage: string) {
+async function getSiteMetadata(targetPage: string) {
   const res = await getClient().getEntries({
     content_type: 'siteMetadata',
-    'fields.isForPage': isForPage,
+    'fields.isForPage': targetPage,
     limit: 1,
   });
   return res.items[0]?.fields as unknown as SiteMetadataFields | undefined;
 }
 
 export async function generateMetadata(): Promise<Metadata> {
-  const meta = await getSiteMetadata(META_IS_FOR_PAGE);
+  const meta = await getSiteMetadata(META_TARGET_PAGE);
   if (!meta) return {};
 
   // page URL for canonical + og:url (home = site root). Some `siteMetadata`
