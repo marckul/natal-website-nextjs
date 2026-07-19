@@ -1,8 +1,8 @@
 'use client';
 
 import {useEffect, useState} from 'react';
+import Link from 'next/link';
 import {usePathname} from 'next/navigation';
-import NavItem from '@/components/NavItem';
 
 type NavLink = {
   href: string;
@@ -20,6 +20,31 @@ const navLinks: NavLink[] = [
   {href: '/aktualnosci', label: 'Aktualności', route: '/aktualnosci'},
   {href: '/#kontakt', label: 'Kontakt', section: 'kontakt'},
 ];
+
+type NavItemProps = {
+  href: string;
+  label: string;
+  active: boolean;
+  // Called when the link is followed, so the mobile menu can close itself.
+  onSelect?: () => void;
+};
+
+// Presentational single nav link. `active` is decided by NavLinks below, since
+// it depends on both the pathname and the scrolled-to section.
+function NavItem({href, label, active, onSelect}: NavItemProps) {
+  return (
+    <li className="nav-item">
+      <Link
+        className={`nav-link${active ? ' active' : ''}`}
+        href={href}
+        aria-current={active ? 'page' : undefined}
+        onClick={onSelect}
+      >
+        {label}
+      </Link>
+    </li>
+  );
+}
 
 export default function NavLinks({onNavigate}: {onNavigate?: () => void}) {
   const [activeSection, setActiveSection] = useState('start');

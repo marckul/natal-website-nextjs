@@ -1,6 +1,4 @@
-import Card from '@/components/Card';
-import CardText from '@/components/CardText';
-import CardTitle from '@/components/CardTitle';
+import Card, {CardText, CardTitle} from '@/components/Card';
 import CarouselHero from '@/components/CarouselHero';
 import Phone from '@/components/Phone';
 import Row from '@/components/Row';

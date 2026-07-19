@@ -12,6 +12,14 @@ type CardProps = {
   children: ReactNode;
 };
 
+export function CardText({children}: {children: ReactNode}) {
+  return <p className="card-text text-justify">{children}</p>;
+}
+
+export function CardTitle({children}: {children: ReactNode}) {
+  return <h3 className="card-title h2">{children}</h3>;
+}
+
 export default function Card({
   id,
   to,
