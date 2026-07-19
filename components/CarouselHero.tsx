@@ -84,10 +84,7 @@ export default function CarouselHero() {
           >
             <div className="carousel-caption d-flex h-100 align-items-center justify-content-center">
               <div className="col mt-5 text-center">
-                <h2
-                  className="display-2 mt-5"
-                  dangerouslySetInnerHTML={{__html: slide.title}}
-                />
+                <h2 className="display-2 mt-5">{slide.title}</h2>
                 <p className="lead text-center">{slide.text}</p>
                 <div className="text-center text-md-end">
                   <Link
