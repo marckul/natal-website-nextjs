@@ -4,6 +4,7 @@ import {BLOCKS, type Document} from '@contentful/rich-text-types';
 
 import {getClient} from '@/lib/contentful';
 import {renderRichText} from '@/lib/rich-text';
+import {slugify} from '@/lib/slugify';
 
 const MODEL_DANYCH = 'MODEL_DANYCH';
 
@@ -102,7 +103,7 @@ export default async function OfertaPage() {
       </section>
 
       {sections.map((section) => (
-        <section key={section.id}>
+        <section key={section.id} id={slugify(section.title)}>
           <div className="jumbotron-hero">
             <div className="container">
               <h1 className="display-2">{section.title}</h1>
