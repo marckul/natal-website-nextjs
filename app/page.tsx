@@ -30,7 +30,7 @@ export default function HomePage() {
       </section>
 
       <section id="oferta" className="container py-md-5 my-5">
-        <h1 className="display-3">Oferta</h1>
+        <h2 className="display-3">Oferta</h2>
         <p className="lead">
           Prowadzimy działalność w zakresie{' '}
           <strong>sprzedaży, wykonawstwa i serwisu</strong> w poniższych
@@ -149,10 +149,10 @@ export default function HomePage() {
           <div className="container position-relative py-5 my-5">
             <div className="row mx-auto px-0 justify-content-between">
               <div className="col-12">
-                <h1 className="display-2 text-start mb-5">Jak nas znaleźć?</h1>
+                <h2 className="display-2 text-start mb-5">Jak nas znaleźć?</h2>
               </div>
               <div className="col-md-4 col-lg-3 mb-5">
-                <h2>Nasz adres</h2>
+                <h3 className="h2">Nasz adres</h3>
                 <address className="mb-0">
                   Miejska 13, 44-200 Rybnik
                   <br />
@@ -160,7 +160,7 @@ export default function HomePage() {
                 </address>
               </div>
               <div className="col-md-3 col-lg-2 mb-5">
-                <h2>Telefon</h2>
+                <h3 className="h2">Telefon</h3>
                 <Phone tel="500087801" className="link-light">
                   500 087 801
                 </Phone>
@@ -173,7 +173,7 @@ export default function HomePage() {
               </div>
               <div className="col-md col-lg-5 mb-5">
                 <div className="openning-hours">
-                  <h2>Godziny otwarcia</h2>
+                  <h3 className="h2">Godziny otwarcia</h3>
                   <table>
                     <tbody>
                       {[

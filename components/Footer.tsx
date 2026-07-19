@@ -30,7 +30,7 @@ export default function Footer() {
       <div className="container">
         <div className="row small justify-content-between">
           <div className="col-md px-5 my-2">
-            <h4>Sprzedaż</h4>
+            <h2 className="h4">Sprzedaż</h2>
             <ul>
               <li>kotły co</li>
               <li>grzejniki</li>
@@ -41,10 +41,10 @@ export default function Footer() {
             </ul>
           </div>
           <div className="col-md px-5 my-2">
-            <h4 className="d-block d-lg-none">Wykonawstwo-usługi</h4>
-            <h4 className="d-none d-lg-block">
+            <h2 className="h4 d-block d-lg-none">Wykonawstwo-usługi</h2>
+            <h2 className="h4 d-none d-lg-block">
               Wykonawstwo&nbsp;-&nbsp;usługi
-            </h4>
+            </h2>
             <ul>
               <li>instalacje gazowe</li>
               <li>instalacje co</li>
@@ -55,35 +55,34 @@ export default function Footer() {
             </ul>
           </div>
           <div className="col-md-12 col-lg-4 px-5 my-2">
-            <address>
-              <div className="row justify-content-between">
-                <div className="col-sm-6">
-                  <h4>Kontakt</h4>
+            <div className="row justify-content-between">
+              <div className="col-sm-6">
+                <h2 className="h4">Kontakt</h2>
+                <address className="mb-0">
                   Miejska 13, 44-200 Rybnik
                   <br />
                   Natalia Kula &quot;Natal&quot; PHU
-                  <br />
-                </div>
-                <div className="col-sm-6 py-3 text-center d-none d-sm-block">
-                  <FacebookLink />
-                </div>
+                </address>
               </div>
-              <div className="mt-3">
-                <h5>Telefon</h5>
-                <Phone tel="500087801" className="link-light">
-                  500 087 801
-                </Phone>
-                <Phone tel="500087803" className="link-light">
-                  500 087 803
-                </Phone>
-                <Phone tel="324231129" className="link-light">
-                  32&nbsp;42&nbsp;31&nbsp;129
-                </Phone>
-              </div>
-              <div className="py-3 text-center d-block d-sm-none mt-4">
+              <div className="col-sm-6 py-3 text-center d-none d-sm-block">
                 <FacebookLink />
               </div>
-            </address>
+            </div>
+            <div className="mt-3">
+              <h3 className="h5">Telefon</h3>
+              <Phone tel="500087801" className="link-light">
+                500 087 801
+              </Phone>
+              <Phone tel="500087803" className="link-light">
+                500 087 803
+              </Phone>
+              <Phone tel="324231129" className="link-light">
+                32&nbsp;42&nbsp;31&nbsp;129
+              </Phone>
+            </div>
+            <div className="py-3 text-center d-block d-sm-none mt-4">
+              <FacebookLink />
+            </div>
           </div>
         </div>
         <p className="text-center">Copyright &copy; 2026 NATAL INSTALACJE</p>
