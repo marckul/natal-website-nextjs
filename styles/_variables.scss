@@ -1,0 +1,67 @@
+// ── Palette ───────────────────────────────────────────────────────────────────
+$marckul-color-primary: #242833;
+$marckul-color-primary-medium: hsla(224, 17%, 17%, 0.75);
+$marckul-color-secondary: rgba(5, 15, 44, 0.9);
+$marckul-color-secondary-medium: rgba(24, 41, 87, 0.75);
+
+$queen-blue: #456e96;
+$pale-cerulean: #aacee9;
+$pale-cerulean-medium: rgba(210, 229, 247, 0.75);
+$gainsboro: hsla(190, 9%, 86%, 1);
+$ghost-white: hsla(240, 29%, 97%, 1);
+$orange: #ff7300;
+$mango: #ffa600;
+$banana: #ffbb00;
+$timberwolf: hsla(38, 12%, 87%, 1);
+$timberwolf-medium: hsla(38, 12%, 87%, 0.75);
+$liver-chestnut: #9e7c61;
+$liver-chestnut-2: hsla(22, 22%, 45%, 1);
+$coffee: #825e4a;
+$jet: hsla(0, 0%, 22%, 1);
+
+$marckul-secondary-color-dark: $queen-blue;
+$marckul-color-3-light: $pale-cerulean-medium;
+
+// ── Element tokens ────────────────────────────────────────────────────────────
+$text-white: hsla(220, 20%, 90%, 0.7);
+$text-dark: $marckul-color-secondary;
+$gray-transparent: rgba(73, 73, 73, 0.9);
+
+$shadow-color: (
+  very-light: rgba(0, 0, 0, 0.15),
+  light: rgba(0, 0, 0, 0.25),
+  medium: rgba(0, 0, 0, 0.5),
+  hard: rgba(0, 0, 0, 0.75),
+);
+
+// ── Typography ────────────────────────────────────────────────────────────────
+$bootstrap-font-family:
+  -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue',
+  Arial, 'Noto Sans', 'Liberation Sans', sans-serif, 'Apple Color Emoji',
+  'Segoe UI Emoji', 'Segoe UI Symbol', 'Noto Color Emoji';
+// `--font-lato` is provided by next/font (see app/layout.tsx); fall back to the
+// Bootstrap system stack until it loads.
+$lato-font-family: var(--font-lato), $bootstrap-font-family;
+$brand-font-family: $bootstrap-font-family;
+
+// ── Shadows ───────────────────────────────────────────────────────────────────
+$shadow-xs: 0 0.125rem 0.12rem;
+$shadow-sm: 0 0.125rem 0.25rem;
+$shadow-md: 0 0.125rem 0.5rem;
+$shadow: 0 0.5rem 1rem;
+$shadow-lg: 0 0.75rem 2rem;
+$shadow-xl: 0 1rem 2rem;
+$shadow-hover: 0 0.5rem 2rem;
+
+// ── Breakpoints (mirrors Bootstrap 5 defaults; used in custom media queries) ──
+$screen-size: (
+  sm: 576px,
+  md: 768px,
+  lg: 992px,
+  xl: 1200px,
+  xxl: 1400px,
+);
+
+// ── Layout ────────────────────────────────────────────────────────────────────
+$nav-height: 5rem;
+$jumbotron-color: #f9eada;

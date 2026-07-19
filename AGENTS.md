@@ -72,7 +72,7 @@ components/           Reusable UI (PascalCase files)
 components/ui/        shadcn primitives (added later, in the styling-migration phase)
 lib/                  contentful client, helpers, types
 public/               Static assets
-styles/               globals.css only; no SCSS
+styles/               SCSS partials (_variables, _layout, _carousel-hero, _index-page, _experimental)
 ```
 
 ## Out of scope (do not add unless asked)

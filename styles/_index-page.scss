@@ -1,0 +1,37 @@
+@use 'sass:map';
+@use './variables' as *;
+
+// Contact / index-page specific styles
+.contact-section {
+  background-repeat: no-repeat;
+  background-size: cover;
+  background-position: left;
+  background-color: rgba(0, 0, 0, 0.65);
+  background-blend-mode: multiply;
+
+  h2 {
+    font-size: 2em !important;
+  }
+
+  .contact-row {
+    font-weight: normal;
+    font-size: 1.25rem !important;
+  }
+}
+
+// Google Maps iframe wrapper
+.map-iframe-mysizes {
+  max-height: 60vmax;
+
+  &::before {
+    padding-top: 100%;
+  }
+
+  @media (orientation: landscape) {
+    max-height: 95vh;
+  }
+
+  @media (min-width: map.get($screen-size, lg)) {
+    max-height: 60vmin;
+  }
+}
