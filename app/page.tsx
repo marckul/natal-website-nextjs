@@ -1,11 +1,10 @@
 import type {Metadata} from 'next';
 
-import {buildPageMetadata} from '@/lib/seo';
-
 import Card, {CardText, CardTitle} from '@/components/Card';
 import CarouselHero from '@/components/CarouselHero';
 import Phone from '@/components/Phone';
 import Row from '@/components/Row';
+import {buildPageMetadata} from '@/lib/cms';
 
 export async function generateMetadata(): Promise<Metadata> {
   return buildPageMetadata('/');

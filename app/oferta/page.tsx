@@ -1,11 +1,11 @@
 import type {Metadata} from 'next';
-import {BLOCKS, type Document} from '@contentful/rich-text-types';
-import type {RenderNode} from '@contentful/rich-text-react-renderer';
 
-import {buildPageMetadata} from '@/lib/seo';
-import {getClient, isModelDanychTitle} from '@/lib/contentful';
+import type {RenderNode} from '@contentful/rich-text-react-renderer';
+import {BLOCKS, type Document} from '@contentful/rich-text-types';
+
+import {buildPageMetadata, getClient, isModelDanychTitle} from '@/lib/cms';
 import {renderRichText} from '@/lib/rich-text';
-import {slugify} from '@/lib/slugify';
+import {slugify} from '@/lib/common';
 
 // Fields we read off the `offerPageOurOffer` entry. Names mirror Contentful 1:1;
 // the two columns are rich-text `Document`s. Loose cast for now.

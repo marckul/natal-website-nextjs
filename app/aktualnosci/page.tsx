@@ -1,10 +1,8 @@
 import type {Metadata} from 'next';
 import Link from 'next/link';
 
-import {getClient, isModelDanychTitle} from '@/lib/contentful';
-import {formatDatePL} from '@/lib/dates';
-import {buildPageMetadata} from '@/lib/seo';
-import {slugify} from '@/lib/slugify';
+import {buildPageMetadata, getClient, isModelDanychTitle} from '@/lib/cms';
+import {formatDatePL, slugify} from '@/lib/common';
 
 // Fields we read off each `newsPost` entry for the list view. `body` (rich text)
 // is only needed by the post subpage, so it's left out here.

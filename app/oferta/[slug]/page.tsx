@@ -1,9 +1,10 @@
-import {cache} from 'react';
 import type {Metadata} from 'next';
 import {notFound} from 'next/navigation';
+import {cache} from 'react';
+
 import type {Document} from '@contentful/rich-text-types';
 
-import {getClient, isModelDanychTitle} from '@/lib/contentful';
+import {getClient, isModelDanychTitle} from '@/lib/cms';
 import {renderRichText} from '@/lib/rich-text';
 
 // Fields we read off each `offerPageSubpage` entry.

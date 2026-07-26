@@ -1,13 +1,13 @@
-import {cache} from 'react';
 import type {Metadata} from 'next';
 import {notFound} from 'next/navigation';
+import {cache} from 'react';
+
 import type {Document} from '@contentful/rich-text-types';
 
 import GoBackLink from '@/components/GoBackLink';
-import {getClient, isModelDanychTitle} from '@/lib/contentful';
-import {formatDatePL} from '@/lib/dates';
+import {formatDatePL, slugify} from '@/lib/common';
+import {getClient, isModelDanychTitle} from '@/lib/cms';
 import {renderRichText} from '@/lib/rich-text';
-import {slugify} from '@/lib/slugify';
 
 /** Fields we read off each `newsPost` entry. The post has no `slug` field — the
  * URL slug is derived from the title via slugify (matching the predecessor). */
