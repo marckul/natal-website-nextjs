@@ -1,5 +1,7 @@
-import Link from 'next/link';
 import type {ReactNode} from 'react';
+
+import Image from 'next/image';
+import Link from 'next/link';
 
 import {
   documentToReactComponents,
@@ -15,7 +17,15 @@ import {slugify} from './slugify';
 // The SDK types `node.data.target` loosely (`fields` is `unknown`-valued), so
 // each reader narrows what it uses.
 interface EmbeddedAsset {
-  fields?: {title?: string; description?: string; file?: {url?: string}};
+  fields?: {
+    title?: string;
+    description?: string;
+    file?: {
+      url?: string;
+      // Present only on image assets; the Delivery API reports intrinsic dims.
+      details?: {image?: {width: number; height: number}};
+    };
+  };
 }
 
 interface LinkedEntry {
@@ -55,18 +65,26 @@ export function resolveEntryHref(entry: LinkedEntry): string | undefined {
 
 const baseRenderNode: RenderNode = {
   // Embedded image asset. Contentful asset URLs are protocol-relative
-  // (`//images.ctfassets.net/...`), so we prefix `https:`.
-  // TODO: replace <img> with next/image once images.ctfassets.net is added to
-  // next.config.ts `images.remotePatterns`.
+  // (`//images.ctfassets.net/...`), so we prefix `https:`. `img-fluid` scales
+  // the image down responsively; `sizes` lets next/image pick a matching width.
+  // Non-image assets (e.g. PDFs) carry no `image` details — skip them.
   [BLOCKS.EMBEDDED_ASSET]: (node) => {
     const asset = node.data.target as EmbeddedAsset;
-    const assetUrl = asset.fields?.file?.url;
-    if (!assetUrl) return null;
-    const altText = asset.fields?.description || asset.fields?.title || '';
+    const file = asset.fields?.file;
+    const image = file?.details?.image;
+    if (!file?.url || !image) return null;
+
+    const alt = asset.fields?.description || asset.fields?.title || '';
     return (
       <figure className="my-4">
-        {/* eslint-disable-next-line @next/next/no-img-element */}
-        <img src={`https:${assetUrl}`} alt={altText} className="img-fluid" />
+        <Image
+          src={`https:${file.url}`}
+          alt={alt}
+          width={image.width}
+          height={image.height}
+          sizes="100vw"
+          className="img-fluid"
+        />
       </figure>
     );
   },
