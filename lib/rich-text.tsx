@@ -1,6 +1,5 @@
 import type {ReactNode} from 'react';
 
-import Image from 'next/image';
 import Link from 'next/link';
 
 import {
@@ -9,6 +8,7 @@ import {
 } from '@contentful/rich-text-react-renderer';
 import {BLOCKS, INLINES, type Document} from '@contentful/rich-text-types';
 
+import ImageProgressive from '@/components/ImageProgressive';
 import {slugify} from './slugify';
 
 // Single source of truth for rendering Contentful rich-text `Document`s with
@@ -77,7 +77,7 @@ const baseRenderNode: RenderNode = {
     const alt = asset.fields?.description || asset.fields?.title || '';
     return (
       <figure className="my-4">
-        <Image
+        <ImageProgressive
           src={`https:${file.url}`}
           alt={alt}
           width={image.width}
