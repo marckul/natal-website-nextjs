@@ -2,19 +2,9 @@ import type {Metadata} from 'next';
 import type {RenderNode} from '@contentful/rich-text-react-renderer';
 import {BLOCKS, type Document} from '@contentful/rich-text-types';
 
-import {getClient} from '@/lib/contentful';
+import {getClient, isModelDanychTitle} from '@/lib/contentful';
 import {renderRichText} from '@/lib/rich-text';
 import {slugify} from '@/lib/slugify';
-
-const MODEL_DANYCH = 'MODEL_DANYCH';
-
-// "Nasza oferta" columns: render their SPRZEDAŻ / WYKONAWSTWO-USŁUGI headings as
-// big uppercase display-4.
-const ourOfferColumnHeadings: RenderNode = {
-  [BLOCKS.HEADING_2]: (_node, children) => (
-    <h2 className="display-4">{children}</h2>
-  ),
-};
 
 // Fields we read off the `offerPageOurOffer` entry. Names mirror Contentful 1:1;
 // the two columns are rich-text `Document`s. Loose cast for now.
@@ -25,7 +15,6 @@ interface OfferPageOurOfferFields {
   bodyCol2?: Document;
 }
 
-// Fields we read off each `offerPageSection` entry.
 interface OfferPageSectionFields {
   title: string;
   leadText?: string;
@@ -33,16 +22,26 @@ interface OfferPageSectionFields {
   offerSectionBody: Document;
 }
 
+type OfferPageSection = OfferPageSectionFields & {id: string};
+
+// SPRZEDAŻ / WYKONAWSTWO-USŁUGI column titles are heading-2 in the CMS;
+// render them as Bootstrap display-4 to match the predecessor.
+const ourOfferColumnHeadings: RenderNode = {
+  [BLOCKS.HEADING_2]: (_node, children) => (
+    <h2 className="display-4">{children}</h2>
+  ),
+};
+
 async function getOfferPageOurOffer() {
   const res = await getClient().getEntries({
     content_type: 'offerPageOurOffer',
   });
   return res.items
     .map((entry) => entry.fields as OfferPageOurOfferFields)
-    .find((fields) => fields.title !== MODEL_DANYCH);
+    .find((fields) => !isModelDanychTitle(fields.title));
 }
 
-async function getOfferPageSections() {
+async function getOfferPageSections(): Promise<OfferPageSection[]> {
   const res = await getClient().getEntries({content_type: 'offerPageSection'});
 
   // Prepare data for display in the offer page. Carry the entry id for a stable
@@ -52,7 +51,7 @@ async function getOfferPageSections() {
       id: entry.sys.id,
       ...(entry.fields as unknown as OfferPageSectionFields),
     }))
-    .filter((section) => section.title !== MODEL_DANYCH)
+    .filter((section) => !isModelDanychTitle(section.title))
     .sort((a, b) => a.sectionsPosition - b.sectionsPosition);
 }
 

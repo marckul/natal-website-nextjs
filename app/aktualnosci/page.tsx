@@ -1,11 +1,9 @@
 import type {Metadata} from 'next';
 import Link from 'next/link';
 
-import {getClient} from '@/lib/contentful';
+import {getClient, isModelDanychTitle} from '@/lib/contentful';
 import {formatDatePL} from '@/lib/dates';
 import {slugify} from '@/lib/slugify';
-
-const MODEL_DANYCH = 'MODEL_DANYCH';
 
 // Fields we read off each `newsPost` entry for the list view. `body` (rich text)
 // is only needed by the post subpage, so it's left out here.
@@ -34,7 +32,7 @@ async function getNewsPosts() {
         slug: slugify(fields.title),
       };
     })
-    .filter((post) => post.title !== MODEL_DANYCH);
+    .filter((post) => !isModelDanychTitle(post.title));
 }
 
 export const metadata: Metadata = {

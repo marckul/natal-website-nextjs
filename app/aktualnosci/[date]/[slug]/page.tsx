@@ -4,12 +4,10 @@ import {notFound} from 'next/navigation';
 import type {Document} from '@contentful/rich-text-types';
 
 import GoBackLink from '@/components/GoBackLink';
-import {getClient} from '@/lib/contentful';
+import {getClient, isModelDanychTitle} from '@/lib/contentful';
 import {formatDatePL} from '@/lib/dates';
 import {renderRichText} from '@/lib/rich-text';
 import {slugify} from '@/lib/slugify';
-
-const MODEL_DANYCH = 'MODEL_DANYCH';
 
 /** Fields we read off each `newsPost` entry. The post has no `slug` field — the
  * URL slug is derived from the title via slugify (matching the predecessor). */
@@ -24,7 +22,7 @@ async function getNewsPosts() {
   const res = await getClient().getEntries({content_type: 'newsPost'});
   return res.items
     .map((entry) => entry.fields as unknown as NewsPostFields)
-    .filter((post) => post.title !== MODEL_DANYCH);
+    .filter((post) => !isModelDanychTitle(post.title));
 }
 
 // Cached so generateMetadata and the page share one fetch per request.
@@ -37,7 +35,7 @@ const getNewsPost = cache(async (date: string, slug: string) => {
   });
   const posts = res.items
     .map((entry) => entry.fields as unknown as NewsPostFields)
-    .filter((post) => post.title !== MODEL_DANYCH);
+    .filter((post) => !isModelDanychTitle(post.title));
   const post = posts.find((post) => slugify(post.title) === slug);
   return post;
 });

@@ -3,10 +3,8 @@ import type {Metadata} from 'next';
 import {notFound} from 'next/navigation';
 import type {Document} from '@contentful/rich-text-types';
 
-import {getClient} from '@/lib/contentful';
+import {getClient, isModelDanychTitle} from '@/lib/contentful';
 import {renderRichText} from '@/lib/rich-text';
-
-const MODEL_DANYCH = 'MODEL_DANYCH';
 
 // Fields we read off each `offerPageSubpage` entry.
 // `leadTextLong` is the fallback lead when the shorter `leadText` is empty.
@@ -22,7 +20,7 @@ async function getOfferSubpages() {
   const res = await getClient().getEntries({content_type: 'offerPageSubpage'});
   return res.items
     .map((entry) => entry.fields as unknown as OfferSubpageFields)
-    .filter((fields) => fields.title !== MODEL_DANYCH);
+    .filter((fields) => !isModelDanychTitle(fields.title));
 }
 
 // Cached so generateMetadata and the page share one fetch per request.
@@ -35,8 +33,7 @@ const getOfferSubpage = cache(async (slug: string) => {
   const fields = res.items[0]?.fields as unknown as
     | OfferSubpageFields
     | undefined;
-  // Don't render the "MODEL_DANYCH" template entry, even on a direct URL hit.
-  if (!fields || fields.title === MODEL_DANYCH) return undefined;
+  if (!fields || isModelDanychTitle(fields.title)) return undefined;
   return fields;
 });
 
