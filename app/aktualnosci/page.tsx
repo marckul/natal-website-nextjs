@@ -1,15 +1,47 @@
 import type {Metadata} from 'next';
 import Link from 'next/link';
+
+import {getClient, isModelDanychTitle} from '@/lib/contentful';
 import {formatDatePL} from '@/lib/dates';
-import {getPostsSorted} from '@/lib/mock-aktualnosci';
+import {slugify} from '@/lib/slugify';
+
+// Fields we read off each `newsPost` entry for the list view. `body` (rich text)
+// is only needed by the post subpage, so it's left out here.
+interface NewsPostFields {
+  title: string;
+  publishDate: string;
+  intercept: string;
+}
+
+async function getNewsPosts() {
+  // Contentful sorts newest-first; the post subpage URL is
+  // /aktualnosci/<publishDate>/<slug>, with the slug derived from the title.
+  const res = await getClient().getEntries({
+    content_type: 'newsPost',
+    order: ['-fields.publishDate'],
+  });
+
+  return res.items
+    .map((entry) => {
+      const fields = entry.fields as unknown as NewsPostFields;
+      return {
+        id: entry.sys.id,
+        title: fields.title,
+        publishDate: fields.publishDate,
+        intercept: fields.intercept,
+        slug: slugify(fields.title),
+      };
+    })
+    .filter((post) => !isModelDanychTitle(post.title));
+}
 
 export const metadata: Metadata = {
   title: 'Aktualności — Natal Instalacje',
   description: 'Aktualności i nowości firmy Natal Instalacje z Rybnika.',
 };
 
-export default function AktualnosciPage() {
-  const posts = getPostsSorted();
+export default async function AktualnosciPage() {
+  const posts = await getNewsPosts();
 
   return (
     <>
@@ -21,7 +53,7 @@ export default function AktualnosciPage() {
 
       <div className="container py-5">
         {posts.map((post) => (
-          <article key={post.slug} className="row my-5 py-3">
+          <article key={post.id} className="row my-5 py-3">
             <div className="col-12">
               <h2 className="display-6 fw-normal">{post.title}</h2>
               <p className="fw-lighter text-muted">

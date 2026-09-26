@@ -1,0 +1,26 @@
+@use 'sass:map';
+@use './variables' as *;
+
+// Ported from the predecessor site's oferta.module.css — the "Nasza oferta"
+// two-column section (`#nasza-oferta`). The hero itself lives in _jumbotron.scss
+// as `.main-offer-jumbotron`.
+#nasza-oferta {
+  // Hero and body each fill at least the lower half of the viewport.
+  > div {
+    min-height: 60vh;
+  }
+
+  .offer-section-body {
+    background-color: #fff;
+
+    .container {
+      margin-top: 3rem;
+      margin-bottom: 3rem;
+    }
+  }
+
+  // The two offer columns each take at least half the row.
+  .col-md {
+    min-width: 50%;
+  }
+}

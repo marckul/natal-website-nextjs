@@ -23,7 +23,7 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="pl" className={lato.variable}>
+    <html lang="pl" data-scroll-behavior="smooth" className={lato.variable}>
       <body>
         <Header />
         <main>{children}</main>
