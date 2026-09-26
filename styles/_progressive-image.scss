@@ -1,0 +1,39 @@
+// Progressive blur-up for embedded rich-text images. The blur is a layer
+// beneath the image; the sharp image fades in on top once it has loaded.
+// `--loaded` is toggled by ImageProgressiveClient once the image loads or fails.
+
+.progressive-image {
+  position: relative;
+  display: inline-block;
+  max-width: 100%;
+  overflow: hidden;
+}
+
+.progressive-image__blur {
+  position: absolute;
+  inset: 0;
+  background-position: center;
+  background-size: cover;
+  // The source is a 16px image; blur and slightly scale it to smooth the
+  // upscaled pixels and clip the blurred edges against the container.
+  filter: blur(12px);
+  transform: scale(1.1);
+}
+
+.progressive-image__img {
+  position: relative;
+  display: block;
+  opacity: 0;
+  transition: opacity 0.5s ease;
+}
+
+.progressive-image--loaded .progressive-image__img {
+  opacity: 1;
+}
+
+// Respect users who ask for less motion — show the image without the fade.
+@media (prefers-reduced-motion: reduce) {
+  .progressive-image__img {
+    transition: none;
+  }
+}
