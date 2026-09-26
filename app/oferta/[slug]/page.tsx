@@ -9,11 +9,15 @@ import {renderRichText} from '@/lib/rich-text';
 
 // Fields we read off each `offerPageSubpage` entry.
 // `leadTextLong` is the fallback lead when the shorter `leadText` is empty.
+// `metaTitle` / `metaDescription` are optional SEO overrides; `metaTitle` is
+// not in the content model yet.
 interface OfferSubpageFields {
   title: string;
   slug: string;
   leadText?: string;
   leadTextLong?: string;
+  metaTitle?: string;
+  metaDescription?: string;
   body: Document;
 }
 
@@ -49,9 +53,21 @@ export async function generateMetadata({params}: Props): Promise<Metadata> {
   const {slug} = await params;
   const page = await getOfferSubpage(slug);
   if (!page) return {};
+
+  const title = page.metaTitle || `${page.title} — Natal Instalacje`;
+  const description =
+    page.metaDescription || page.leadText || page.leadTextLong;
+
+  // TODO: add canonical + og:url once a shared site-origin helper exists.
   return {
-    title: `${page.title} — Natal Instalacje`,
-    description: page.leadText || page.leadTextLong,
+    title,
+    description,
+    openGraph: {
+      title,
+      description,
+      locale: 'pl_PL',
+      type: 'website',
+    },
   };
 }
 
