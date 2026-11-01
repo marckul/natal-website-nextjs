@@ -1,6 +1,22 @@
-// News posts have no `slug` field — the URL segment is derived from the title
-// at build time. The mapping must stay byte-identical to the Gatsby
-// `slugify` so `/aktualnosci/<date>/<slug>` URLs keep their Google rankings.
+// Polish date formatting, matching the predecessor site's `GetPrettyDatePL`
+// (weekday + day + month + year, e.g. "poniedziałek, 15 marca 2025").
+
+const prettyDatePL = new Intl.DateTimeFormat('pl-PL', {
+  weekday: 'long',
+  year: 'numeric',
+  month: 'long',
+  day: 'numeric',
+});
+
+export function formatDatePL(isoDate: string): string {
+  // Append a time so the date is parsed in local time, not shifted by UTC.
+  return prettyDatePL.format(new Date(`${isoDate}T00:00:00`));
+}
+
+// Slugify a title into a URL segment, matching the predecessor (Gatsby) site's
+// `slugify` so existing /aktualnosci/<date>/<slug> URLs stay byte-identical and
+// keep their Google rankings. News posts have no `slug` field in Contentful —
+// the slug is derived from the title at build time.
 //
 // Polish-only content, so only Polish diacritics are mapped (ą ć ę ł ń ó ś
 // ź ż). The predecessor mapped a wider Latin set; none of those appear here.

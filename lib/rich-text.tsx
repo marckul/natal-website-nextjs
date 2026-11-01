@@ -9,7 +9,7 @@ import {
 import {BLOCKS, INLINES, type Document} from '@contentful/rich-text-types';
 
 import ImageProgressive from '@/components/ImageProgressive';
-import {slugify} from './slugify';
+import {slugify} from './common';
 
 // Single source of truth for rendering Contentful rich-text `Document`s with
 // `@contentful/rich-text-react-renderer`.

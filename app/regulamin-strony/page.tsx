@@ -1,9 +1,10 @@
 import type {Metadata} from 'next';
 import {notFound} from 'next/navigation';
+
 import type {Document} from '@contentful/rich-text-types';
 
 import GoBackLink from '@/components/GoBackLink';
-import {getClient} from '@/lib/contentful';
+import {getClient} from '@/lib/cms';
 import {renderRichText} from '@/lib/rich-text';
 
 interface PrivacyPolicyFields {

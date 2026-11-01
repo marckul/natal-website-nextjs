@@ -1,10 +1,11 @@
 import type {Metadata} from 'next';
+
 import type {RenderNode} from '@contentful/rich-text-react-renderer';
 import {BLOCKS, type Document} from '@contentful/rich-text-types';
 
-import {getClient, isModelDanychTitle} from '@/lib/contentful';
+import {buildPageMetadata, getClient, isModelDanychTitle} from '@/lib/cms';
 import {renderRichText} from '@/lib/rich-text';
-import {slugify} from '@/lib/slugify';
+import {slugify} from '@/lib/common';
 
 // Fields we read off the `offerPageOurOffer` entry. Names mirror Contentful 1:1;
 // the two columns are rich-text `Document`s. Loose cast for now.
@@ -55,11 +56,9 @@ async function getOfferPageSections(): Promise<OfferPageSection[]> {
     .sort((a, b) => a.sectionsPosition - b.sectionsPosition);
 }
 
-export const metadata: Metadata = {
-  title: 'Oferta — Natal Instalacje',
-  description:
-    'Oferta firmy Natal Instalacje: centralne ogrzewanie, instalacje gazowe, WOD-KAN, fotowoltaika, wentylacja.',
-};
+export async function generateMetadata(): Promise<Metadata> {
+  return buildPageMetadata('/oferta');
+}
 
 export default async function OfertaPage() {
   const [ourOfferFields, sections] = await Promise.all([

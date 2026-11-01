@@ -1,6 +1,8 @@
-import Image, {type ImageProps} from 'next/image';
+import {type ImageProps} from 'next/image';
 import {cache} from 'react';
 import sharp from 'sharp';
+
+import ImageProgressiveClient from '@/components/ImageProgressiveClient';
 
 const BLUR_SOURCE_QUALITY = 80;
 const BLUR_SOURCE_WIDTH = 200;
@@ -42,7 +44,10 @@ interface ImageProgressiveProps extends Omit<
   src: string;
 }
 
-/** Renders next/image with a Sharp-encoded blur placeholder. Server-only. */
+/**
+ * Encodes a blur placeholder with Sharp, then hands it to the client component
+ * that fades the image in over it. Server-only (fetch + Sharp run at build).
+ */
 export default async function ImageProgressive({
   alt,
   className,
@@ -54,15 +59,14 @@ export default async function ImageProgressive({
   const blurDataUrl = await getBlurDataUrl(src);
 
   return (
-    <Image
+    <ImageProgressiveClient
       src={src}
       alt={alt}
       width={width}
       height={height}
       sizes={sizes}
       className={className}
-      placeholder={blurDataUrl ? 'blur' : undefined}
-      blurDataURL={blurDataUrl}
+      blurDataUrl={blurDataUrl}
     />
   );
 }
